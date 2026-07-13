@@ -1,4 +1,4 @@
-habits = {}
+habits = {"python": 3, "xd": 2}
 
 def show_menu():
     print("1: добавление привычки")
@@ -7,42 +7,60 @@ def show_menu():
     print("4: статистика")
     print("5: выход")
 
+def show_habits():
+    if not habits:
+        print("привычек пока нет")
+    else:
+        print("список привычек:", *habits, sep=", ")
+
 def add_habit():
     habit = input("напиши название привычки которую добавить: ")
-    if habit in habits.keys():
-        print("Привычка есть")
+    if habit in habits:
+        print("Такая привычка уже есть")
     else:
         habits[habit] = 0
+        print("Привычка добавлена")
 
-def del_habit():
+def delete_habit():
+    show_habits()
     habit = input("напиши название привычки которую удалить: ")
     # я сначала написал habits.keys, но можно просто habits
     if habit not in habits:
         print("Привычка нет такой")
     else:
         del habits[habit]
+        print("Привычка удалена")
 
 def mark_habit():
+    show_habits()
     habit = input("напиши название привычки которую хотите отметить: ")
-    if habit not in habits.keys():
+    if habit not in habits:
         print("Привычка нет такой")
     else:
         habits[habit] += 1
+        print(f"количество обновлено! красавчик нах. количество {habits[habit]}")
 
 def stat_habit():
-    for key, value in habits.items():
-        print(f"{key}: {value}")
+    if not habits:
+        print("Привычек пока нет")
+    else:
+        for key, value in habits.items():
+            print(f"{key}: {value}")
 
 print("привет! это Habit tack")
 
 while True:
     show_menu()
-    user_choice = int(input("ваш выбор: "))
+    try:
+        user_choice = int(input("ваш выбор: "))
+    except ValueError:
+        print("пожалуйста введите цифру \n")
+        continue
     match user_choice:
         case 1:
             add_habit()
         case 2:
-            del_habit()
+            delete_habit()
         case 3:
             mark_habit()
         case 4:
