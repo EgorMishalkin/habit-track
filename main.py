@@ -1,4 +1,16 @@
-habits = {"python": 3, "xd": 2}
+import json
+
+def load_habits():
+    # Открываем файл для чтения
+    with open("habits.json", "r", encoding="utf-8") as f:
+        # Загружаем данные из файла в переменную
+        habits_data = json.load(f)
+        return habits_data
+
+def save_habits():
+    # Writing JSON data to a file
+    with open("habits.json", "w", encoding="utf-8") as file:
+        json.dump(habits, file)
 
 def show_menu():
     print("1: добавление привычки")
@@ -14,11 +26,13 @@ def show_habits():
         print("список привычек:", *habits, sep=", ")
 
 def add_habit():
+    show_habits()
     habit = input("напиши название привычки которую добавить: ")
     if habit in habits:
         print("Такая привычка уже есть")
     else:
         habits[habit] = 0
+        save_habits()
         print("Привычка добавлена")
 
 def delete_habit():
@@ -29,6 +43,7 @@ def delete_habit():
         print("Привычка нет такой")
     else:
         del habits[habit]
+        save_habits()
         print("Привычка удалена")
 
 def mark_habit():
@@ -38,6 +53,7 @@ def mark_habit():
         print("Привычка нет такой")
     else:
         habits[habit] += 1
+        save_habits()
         print(f"количество обновлено! красавчик нах. количество {habits[habit]}")
 
 def stat_habit():
@@ -48,6 +64,7 @@ def stat_habit():
             print(f"{key}: {value}")
 
 print("привет! это Habit tack")
+habits = load_habits()
 
 while True:
     show_menu()
