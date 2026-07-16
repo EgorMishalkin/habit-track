@@ -8,7 +8,7 @@ def show_menu():
     print("4: статистика")
     print("5: выход")
 
-print("привет! это Habit tack")
+print("привет! это Habit track")
 habits = load_habits()
 
 while True:

@@ -1,4 +1,4 @@
-from storage import save_habits, load_habits
+from storage import save_habits
 
 def show_habits(habits):
     if not habits:
