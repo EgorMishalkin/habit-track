@@ -1,16 +1,5 @@
-import json
-
-def load_habits():
-    # Открываем файл для чтения
-    with open("habits.json", "r", encoding="utf-8") as f:
-        # Загружаем данные из файла в переменную
-        habits_data = json.load(f)
-        return habits_data
-
-def save_habits():
-    # Writing JSON data to a file
-    with open("habits.json", "w", encoding="utf-8") as file:
-        json.dump(habits, file)
+from storage import load_habits
+from habit_service import add_habit, delete_habit, mark_habit, stat_habit
 
 def show_menu():
     print("1: добавление привычки")
@@ -18,50 +7,6 @@ def show_menu():
     print("3: отметить привычку")
     print("4: статистика")
     print("5: выход")
-
-def show_habits():
-    if not habits:
-        print("привычек пока нет")
-    else:
-        print("список привычек:", *habits, sep=", ")
-
-def add_habit():
-    show_habits()
-    habit = input("напиши название привычки которую добавить: ")
-    if habit in habits:
-        print("Такая привычка уже есть")
-    else:
-        habits[habit] = 0
-        save_habits()
-        print("Привычка добавлена")
-
-def delete_habit():
-    show_habits()
-    habit = input("напиши название привычки которую удалить: ")
-    # я сначала написал habits.keys, но можно просто habits
-    if habit not in habits:
-        print("Привычка нет такой")
-    else:
-        del habits[habit]
-        save_habits()
-        print("Привычка удалена")
-
-def mark_habit():
-    show_habits()
-    habit = input("напиши название привычки которую хотите отметить: ")
-    if habit not in habits:
-        print("Привычка нет такой")
-    else:
-        habits[habit] += 1
-        save_habits()
-        print(f"количество обновлено! красавчик нах. количество {habits[habit]}")
-
-def stat_habit():
-    if not habits:
-        print("Привычек пока нет")
-    else:
-        for key, value in habits.items():
-            print(f"{key}: {value}")
 
 print("привет! это Habit tack")
 habits = load_habits()
@@ -75,13 +20,13 @@ while True:
         continue
     match user_choice:
         case 1:
-            add_habit()
+            add_habit(habits)
         case 2:
-            delete_habit()
+            delete_habit(habits)
         case 3:
-            mark_habit()
+            mark_habit(habits)
         case 4:
-            stat_habit()
+            stat_habit(habits)
         case 5:
             break
         case _:
