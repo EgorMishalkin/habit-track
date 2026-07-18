@@ -1,6 +1,14 @@
 from storage import save_habits
 from datetime import date
 
+def normalize_habit_name(habit):
+    return habit.strip()
+
+def validate_habit_name(habit):
+    if not habit:
+        return False
+    return True
+
 def show_habits(habits):
     if not habits:
         print("привычек пока нет")
@@ -10,7 +18,7 @@ def show_habits(habits):
 def add_habit(habits):
     show_habits(habits)
     habit = input("напиши название привычки которую добавить: ")
-    if habit in habits:
+    if check_habit(habit, habits):
         print("Такая привычка уже есть")
     else:
         habits[habit] = []
@@ -21,7 +29,7 @@ def delete_habit(habits):
     show_habits(habits)
     habit = input("напиши название привычки которую удалить: ")
     # я сначала написал habits.keys, но можно просто habits
-    if habit not in habits:
+    if not check_habit(habit, habits):
         print("Привычка нет такой")
     else:
         del habits[habit]
@@ -32,7 +40,7 @@ def mark_habit(habits):
     show_habits(habits)
     habit = input("напиши название привычки которую хотите отметить: ")
     today = str(date.today())
-    if habit not in habits:
+    if not check_habit(habit, habits):
         print("Привычка нет такой")
     else:
         if today in habits[habit]:
