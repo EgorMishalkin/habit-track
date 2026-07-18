@@ -1,4 +1,5 @@
 from storage import save_habits
+from datetime import date
 
 def show_habits(habits):
     if not habits:
@@ -12,7 +13,7 @@ def add_habit(habits):
     if habit in habits:
         print("Такая привычка уже есть")
     else:
-        habits[habit] = 0
+        habits[habit] = []
         save_habits(habits)
         print("Привычка добавлена")
 
@@ -30,16 +31,26 @@ def delete_habit(habits):
 def mark_habit(habits):
     show_habits(habits)
     habit = input("напиши название привычки которую хотите отметить: ")
+    today = str(date.today())
     if habit not in habits:
         print("Привычка нет такой")
     else:
-        habits[habit] += 1
-        save_habits(habits)
-        print(f"количество обновлено! красавчик нах. количество {habits[habit]}")
+        if today in habits[habit]:
+            print('привычка сегодня уже отмечена!')
+        else:
+            habits[habit].insert(0, today)
+            save_habits(habits)
+            print(f"количество обновлено! красавчик нах. количество {len(habits[habit])}")
 
 def stat_habit(habits):
     if not habits:
         print("Привычек пока нет")
     else:
         for key, value in habits.items():
-            print(f"{key}: {value}")
+            if not value:
+                print(f'привычка: {key}')
+                print(f"количество выполнений: 0")
+            else:
+                print(f'привычка {key}')
+                print(f"количество выполнений: {len(value)}")
+                print(f"последнее выполнение: {value[0]}")
