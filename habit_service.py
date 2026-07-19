@@ -9,6 +9,12 @@ def validate_habit_name(habit):
         return False
     return True
 
+def check_habit(habit, habits):
+    if habit in habits:
+        return True
+    else:
+        return False
+
 def show_habits(habits):
     if not habits:
         print("привычек пока нет")
@@ -18,12 +24,19 @@ def show_habits(habits):
 def add_habit(habits):
     show_habits(habits)
     habit = input("напиши название привычки которую добавить: ")
+    habit = normalize_habit_name(habit)
+
+    if not validate_habit_name(habit):
+        print("введенная привычка некорректна")
+        return
+
     if check_habit(habit, habits):
         print("Такая привычка уже есть")
-    else:
-        habits[habit] = []
-        save_habits(habits)
-        print("Привычка добавлена")
+        return
+
+    habits[habit] = []
+    save_habits(habits)
+    print("Привычка добавлена")
 
 def delete_habit(habits):
     show_habits(habits)
